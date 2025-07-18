@@ -48,19 +48,19 @@
 		"colors": "=1.4.0",
 		"json-colorizer": "^3.0.1",
 		"list-exports": "^1.1.0",
-		"npm-package-arg": "^12.0.2",
+		"npm-package-arg": "^11.0.3",
 		"object.fromentries": "^2.0.8",
 		"object.values": "^1.2.0",
-		"pacote": "^21.0.0",
-		"strip-ansi": "^7.1.0",
+		"pacote": "^17.0.7",
+		"strip-ansi": "^6.0.1",
 		"table": "^6.8.2",
 		"tmp": "^0.2.3",
 		"tree-walk": "^0.4.0",
-		"yargs": "^18.0.0"
+		"yargs": "^17.7.2"
 	},
 	"devDependencies": {
 		"@ljharb/eslint-config": "^21.1.1",
-		"eslint": "=8.57.1",
+		"eslint": "=8.8.0",
 		"in-publish": "^2.0.1",
 		"ls-engines": "^0.9.3",
 		"safe-publish-latest": "^2.0.0"
