@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@ljharb/eslint-config": "^21.1.1",
-		"eslint": "=8.8.0",
+		"eslint": "=8.57.1",
 		"evalmd": "^0.0.19",
 		"glob-gitignore": "^1.0.15",
 		"has-dynamic-import": "^2.1.1",
