@@ -104,17 +104,38 @@ function sortFiles(tree) {
 	}));
 }
 
-function getExtensions(packageType = 'commonjs') {
+// Node 22.6.0+ has native TypeScript support (type stripping)
+function hasNativeTS(nodeRange) {
+	return intersects(nodeRange, '>=22.6');
+}
+
+function getExtensions(packageType = 'commonjs', nodeRange = process.version) {
 	if (packageType !== 'commonjs' && packageType !== 'module') {
 		throw new TypeError(`unknown package type found: ${inspect(packageType)}`);
 	}
 
-	const base = filter(
+	const nativeTS = hasNativeTS(nodeRange);
+
+	let baseExts = filter(
 		keys(require.extensions),
-		(x) => startsWith(x, '.') && (packageType !== 'module' || x !== '.js') && x !== '.mjs',
+		(x) => startsWith(x, '.')
+			&& (packageType !== 'module' || x !== '.js')
+			&& x !== '.mjs'
+			&& x !== '.ts'
+			&& x !== '.cts'
+			&& x !== '.mts', // always exclude TS from require.extensions; we add them explicitly below when needed
 	);
+	// when native TS is available, ensure TS extensions are included
+	if (nativeTS) {
+		baseExts = $concat(baseExts, '.ts', '.cts');
+	}
+	const base = baseExts;
 	const legacy = packageType === 'module' ? $concat(base, '.js') : base;
-	const esm = $concat(['.mjs'], packageType === 'module' ? '.js' : []);
+	let esmExts = $concat(['.mjs'], packageType === 'module' ? '.js' : []);
+	if (nativeTS) {
+		esmExts = $concat(esmExts, '.mts');
+	}
+	const esm = esmExts;
 	const all = $concat([], esm, '.cjs', base);
 
 	return {
@@ -795,7 +816,7 @@ async function getExports(packageDir, pkgData, nodeRange, problems) {
 		type: rootType = 'commonjs',
 	} = pkgData;
 
-	const { all: rootAllExtensions, base: rootBaseExtensions } = getExtensions(rootType);
+	const { all: rootAllExtensions, base: rootBaseExtensions } = getExtensions(rootType, nodeRange);
 	const arborist = new Arborist({ path: packageDir });
 	const arbTree = await arborist.loadActual();
 	const packedFiles = await packlist(arbTree, { path: packageDir });
