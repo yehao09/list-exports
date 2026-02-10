@@ -1,6 +1,6 @@
 {
 	"name": "list-exports-monorepo",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"private": true,
 	"description": "Given a package name and a version number, or a path to a package.json, what specifiers does it expose?",
 	"scripts": {
@@ -56,6 +56,8 @@
 		"packages/*"
 	],
 	"dependencies": {
-		"@npmcli/arborist": "^9.2.0"
+		"@npmcli/arborist": "^9.2.0",
+		"list-exports": "^2.2.0",
+		"pacote": "^21.3.0"
 	}
 }
